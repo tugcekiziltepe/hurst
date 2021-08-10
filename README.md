@@ -15,9 +15,8 @@ H = 0.5 — Brownian motion,
 
 ## Installation
 Install **hurst** module with  
-`pip install hurst`  
-or    
-`pip install -e git+https://github.com/Mottl/hurst#egg=hurst`
+
+`pip install -e git+https://github.com/tugcekiziltepe/hurst#egg=hurst`
 
 ## Usage
 ```python

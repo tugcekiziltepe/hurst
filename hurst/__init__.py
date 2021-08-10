@@ -185,10 +185,16 @@ def compute_Hc(series, kind="random_walk", min_window=10, max_window=None, simpl
             _ = RS_func(series[start:start+w], kind)
             if _ != 0:
                 rs.append(_)
-        RS.append(np.mean(rs))
+        if len(rs) > 0:
+            RS.append(np.mean(rs))
+        else:
+            RS.append(0)
 
-    A = np.vstack([np.log10(window_sizes), np.ones(len(RS))]).T
-    H, c = np.linalg.lstsq(A, np.log10(RS), rcond=-1)[0]
+    clean_window_sizes = [num for num, rs in zip(window_sizes, RS) if rs != 0]
+    clean_rs = list(filter(lambda a: a != 0, RS))
+
+    A = np.vstack([np.log10(clean_window_sizes), np.ones(len(clean_rs))]).T
+    H, c = np.linalg.lstsq(A, np.log10(clean_rs), rcond=-1)[0]
     np.seterr(**err)
 
     c = 10**c
